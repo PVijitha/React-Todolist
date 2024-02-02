@@ -33,7 +33,6 @@ function Home() {
     const list = task.filter(item => item.title === search);
     setsearchList([...list]);
   }
-
   return (
       <>
       <div className="container">
