@@ -1,0 +1,19 @@
+.container {
+    height: 700px;
+    width: 1000px;
+    margin-left: 250px;
+    margin-top: 20px;
+    box-shadow: 5px 5px 10px 10px rgb(161, 163, 163);
+    border-radius: 20px;
+}
+
+.add {
+    color: white;
+    text-decoration: none;
+}
+
+.boot-search {
+    width: 500px;
+    height: 20px;
+    margin-left: 163px;
+}
