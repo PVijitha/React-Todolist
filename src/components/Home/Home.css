@@ -1,0 +1,36 @@
+.container {
+    height: 700px;
+    width: 1000px;
+    margin-left: 250px;
+    margin-top: 20px;
+}
+
+.add {
+    color: white;
+    text-decoration: none;
+}
+
+.boot-search {
+    width: 395px;
+    height: 20px;
+    margin-left: 160px;
+}
+
+.task-container {
+    height: 70px;
+    width: 660px;
+    border: 0.5px solid black;
+    margin-left: 160px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.clicked {
+    border: 2px solid red;
+}
+
+.hidden-button {
+    height: 40px;
+    width: 70px;
+    margin-top: 30px;
+}
