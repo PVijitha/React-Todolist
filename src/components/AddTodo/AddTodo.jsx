@@ -2,21 +2,16 @@ import React, { useState } from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import './AddTodo.css';
 
-function AddTodo(props) {
+function AddTodo({ show, setShow, addTask }) {
 
-
-  
  function handleClose() {
-    props.setShow(false); 
+    setShow(false); 
   } 
 
   const [title, setValue] = useState("");
   const [description, setDes] = useState("");
   const [isTitleValid, setIsTitleValid] = useState(true);
   const [isAlreadyExist, setisAlreadyExist] = useState(true);
-
-
-  
 
   const addItem = () => {
     const trimmedTitle = title.trim();
@@ -29,29 +24,30 @@ function AddTodo(props) {
     const titleAlreadyExists = existingTasks?.some(task => task.title.toLowerCase() === trimmedTitle.toLowerCase()); 
     if (titleAlreadyExists) {
       // Handle the case where the title already exists
-      // For example, you can show an error message or take appropriate action
       setisAlreadyExist(false);
       return;
     } 
-    props.addTask(trimmedTitle, description);
+    addTask(trimmedTitle, description);
     const updatedTasks = [...existingTasks, { title: trimmedTitle, description }];
     localStorage.setItem('tasks', JSON.stringify(updatedTasks));
     setValue("");
     setDes("");
     setIsTitleValid(true);
-    props.setShow(false);
+    setShow(false);
   };
   
+  function handleInputChange(e) {
+    setValue(e.target.value);
+    setIsTitleValid(true);  
+  }
+
   return (
     <div>
-      <Modal show={props.show} onHide={handleClose} className='modal-container'>
+      <Modal show={show} onHide={handleClose} className='modal-container'>
       <Modal.Header closeButton>
       <Modal.Title>New Task</Modal.Title>
       </Modal.Header>
-      <input type="text" placeholder='title' className='ms-1 mb-1 p-2 task-title' value={title} onChange={(e) => {
-              setValue(e.target.value);
-              setIsTitleValid(true);             
-            }} required/>
+      <input type="text" placeholder='title' className='ms-1 mb-1 p-2 task-title' value={title} onChange={handleInputChange} required/>
         {!isTitleValid &&<p className='error ms-1'>Title cannot be empty</p>}
         {!isAlreadyExist  &&<p className='error ms-1'>This task already exist in todolist</p>}
       <textarea name="textarea" id="textarea" value={description} placeholder='add task description....' className='area ms-1 ps-2' onChange={(e) => setDes(e.target.value)}/>

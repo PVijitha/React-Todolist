@@ -1,8 +1,18 @@
 .task-container {
     height: 70px;
     width: 660px;
-    background-color: antiquewhite;
+    border: 0.5px solid black;
     margin-left: 160px;
     margin-top: 20px;
     border-radius: 10px;
+}
+
+.clicked {
+    border: 2px solid red;
+}
+
+.hidden-button {
+    height: 40px;
+    width: 70px;
+    margin-top: 30px;
 }
