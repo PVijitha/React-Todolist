@@ -4,15 +4,17 @@ import './AddTodo.css';
 
 function AddTodo({ show, setShow, addTask }) {
 
- function handleClose() {
-    setShow(false); 
-  } 
-
   const [title, setValue] = useState("");
   const [description, setDes] = useState("");
   const [isTitleValid, setIsTitleValid] = useState(true);
   const [isAlreadyExist, setisAlreadyExist] = useState(true);
 
+  function handleClose() {
+    setIsTitleValid(true);
+    setisAlreadyExist(true);
+    setShow(false); 
+    setValue("");
+  } 
   const addItem = () => {
     const trimmedTitle = title.trim();
     if (trimmedTitle === '') {

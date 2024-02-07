@@ -18,6 +18,7 @@ function Home() {
 
   const [itemToDelete, setItemToDelete] = useState("");
 
+  const [sortItem, setSortItem] = useState(false);
   /*to set the todos from local storage to state*/
   useEffect(() => {
     getLocalStorageData();
@@ -64,13 +65,14 @@ function Home() {
 
   function handleAllDeleteButtonClick() {
     const result = window.confirm("Are you sure you want to delete All task?");
-    if (result) {
-      setSelectAll(true);
-      console.log(setSelectAll(true));
-    } else {
-      setSelectAll(false);
-      console.log(setSelectAll(false));
-    }
+    return result ? true : false ;
+    // if (result) {
+    //   setSelectAll(true);
+    //   console.log(setSelectAll(true));
+    // } else {
+    //   setSelectAll(false);
+    //   console.log(!selectAll);
+    // }
   }
 
   function handleOneDeleteButtonClick() {
@@ -79,17 +81,23 @@ function Home() {
   }
 
   function selectOneTask(title) {
-    setItemToDelete(title);
+    if(itemToDelete.length) {
+       setItemToDelete("");
+    }
+    else {
+      setItemToDelete(title);
+    }
   }
 
   function Delete() {
     if (selectAll) {
-      if(handleAllDeleteButtonClick()) {
+       if(handleAllDeleteButtonClick()) {
         const DeleteAllTask = [];
         localStorage.setItem("tasks", JSON.stringify(DeleteAllTask));
         getLocalStorageData();
         setSelectAll(false);
-      }
+        console.log(setSelectAll(!selectAll));
+       }
     } else {
       if(handleOneDeleteButtonClick()) {
       const updatedTasks = task.filter((t) => t.title !== itemToDelete);
@@ -99,9 +107,45 @@ function Home() {
       }
     }
   }
+  
+  // function ascendingSort() {
+  //   const strAscending = [...task].sort((a, b) =>
+  //     a.title > b.title ? 1 : -1,
+  //   );
+  //   localStorage.setItem("tasks", JSON.stringify(strAscending));
+  //   getLocalStorageData();
+  // }
+
+  // function descendingSort() {
+  //   const strDescending = [...task].sort((a, b) =>
+  //   a.title > b.title ? -1 : 1,
+  // );
+  // localStorage.setItem("tasks", JSON.stringify(strDescending));
+  // getLocalStorageData();
+  // }
+  function sortItems() {
+    if(sortItem) {
+      const strAscending = [...task].sort((a, b) =>
+      a.title > b.title ? 1 : -1,
+    );
+    localStorage.setItem("tasks", JSON.stringify(strAscending));
+    getLocalStorageData();
+    }
+    else {
+      const strDescending = [...task].sort((a, b) =>
+      a.title > b.title ? -1 : 1,
+    );
+    localStorage.setItem("tasks", JSON.stringify(strDescending));
+    getLocalStorageData();
+    }
+  }
+
+  function sort() {
+    setSortItem(!sortItem);
+    sortItems();
+  }
   return (
     <>
-      <div className="container">
         <h1 className="pt-2 pb-3">My Todo List</h1>
         <div className="d-flex mt-3">
           <InputGroup className="boot-search">
@@ -141,6 +185,9 @@ function Home() {
           >
             Select All
           </button>
+          <button type="button" className="btn btn-primary ms-3 mb-2" onClick={sort}>Sort</button>
+          {/* <button type="button" className="btn btn-primary ms-3 mb-2" onClick={ascendingSort}>Ascending Sort</button>
+          <button type="button" className="btn btn-primary ms-3 mb-2" onClick={descendingSort}>Descending Sort</button> */}
           {selectAll || itemToDelete.length ? (
             <button
               type="button"
@@ -151,7 +198,7 @@ function Home() {
             </button>
           ) : null}
         </div>
-        <div>
+        <div className="list-container">
           {task.length > 0 ? (
             task?.map((task, index) => (
               <TaskList key={index} task={task} handleDelete={selectOneTask} selectAll={selectAll}/>
@@ -161,7 +208,6 @@ function Home() {
           )}
         </div>
         <AddTodo show={show} setShow={setShow} addTask={addTask} />
-      </div>
     </>
   );
 }
