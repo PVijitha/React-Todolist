@@ -9,5 +9,33 @@
 .boot-search {
     width: 395px;
     height: 20px;
-    margin-left: 410px;
 }
+
+.select-all-button {
+    margin-left: 412px;
+}
+
+.down-arrow {
+    height: 40px;
+    width: 50px;
+    background-color: white;
+    border-radius: 5px;
+    transform: rotate(180deg);
+  }
+
+.sort {
+    height: 40px;
+    width: 50px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.sort,.down-arrow:hover {
+    background-color: #f6bf28; 
+    border: 1px solid white;
+  }
+
+  .heading {
+    margin-left: 600px;
+  }
+  

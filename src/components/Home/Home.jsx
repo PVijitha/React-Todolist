@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import AddTodo from "../AddTodo/AddTodo";
+import ManageTasks from "../ManageTasks/ManageTasks";
 import "./Home.css";
 import TaskList from "../TaskList/TaskList";
 import { InputGroup, Button, Form } from "react-bootstrap";
 import NotFound from "../NotFound/NotFound";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+
 function Home() {
   /*to show/hides the modal */
   const [show, setShow] = useState(false);
@@ -11,18 +14,35 @@ function Home() {
   /*original/update task state */
   const [task, setTask] = useState([]);
 
+  console.log("task", task)
+
   /*to perform search */
   const [search, setSearch] = useState("");
 
-  const [selectAll, setSelectAll] = useState(false);
+  const [newIds, setNewIds] = useState([]);
 
-  const [itemToDelete, setItemToDelete] = useState("");
+  const [selectedTodo, setSelectedTodo] = useState({})
+  
+  const [status, setStatus] = useState("Todo")
 
-  const [sortItem, setSortItem] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const [isEditMode, setIsEditMode] = useState(false);
+  // Use local storage to retrieve the previous state
+  const [isSorted, setIsSorted] = useState(() => {
+    const storedState = localStorage.getItem('isSorted');
+    return storedState ? JSON.parse(storedState) : false;
+  });
+ 
   /*to set the todos from local storage to state*/
   useEffect(() => {
     getLocalStorageData();
   }, []);
+
+  // Update local storage whenever the state changes
+  useEffect(() => {
+    localStorage.setItem('isSorted', JSON.stringify(isSorted));
+  }, [isSorted]);
 
   function getLocalStorageData() {
     const storedTodos = localStorage.getItem("tasks");
@@ -34,112 +54,108 @@ function Home() {
     }
   }
 
-  function handleInputChange(e) {
+  function handleInputSearchChange(e) {
     setSearch(e.target.value);
     if (e.target.value === "") {
       getLocalStorageData();
     }
   }
-  function addTask(title, description) {
-    const newTask = [...task, { title, description }];
+
+  function addTask(title, description, id) {
+    const newTask = [...task, { title, description, id, status}];
     setTask(newTask);
   }
 
   function searchItem() {
-    const list = task.filter(
-      (item) => item.title.toLowerCase() === search.toLowerCase()
-    );
+    const list = task.filter((item) => item.title.toLowerCase() === search.toLowerCase());
     setTask([...list]);
   }
+
   function clear() {
     setSearch("");
     getLocalStorageData();
   }
 
-  function SelectAll() {
-    setSelectAll(!selectAll);
-    console.log("selectclicked");
-    console.log(!selectAll);
-
-  }
-
-  function handleAllDeleteButtonClick() {
-    const result = window.confirm("Are you sure you want to delete All task?");
-    return result ? true : false ;
-    // if (result) {
-    //   setSelectAll(true);
-    //   console.log(setSelectAll(true));
-    // } else {
-    //   setSelectAll(false);
-    //   console.log(!selectAll);
-    // }
-  }
-
-  function handleOneDeleteButtonClick() {
+  function handleDeleteAlert() {
     const result = window.confirm("Are you sure you want to delete?");
     return result ? true : false ;
   }
 
-  function selectOneTask(title) {
-    if(itemToDelete.length) {
-       setItemToDelete("");
+function selectTask(task) {
+  if (!newIds.includes(task.id)) {
+    setNewIds([...newIds, task.id]);
+    setCount(count + 1);
+  } else {
+    const updatedIds = newIds.filter(existingId => existingId !== task.id);
+    setNewIds(updatedIds);
+    setCount(count - 1);
+  }
+}
+
+function deleteTask() {
+    if(handleDeleteAlert()){
+      const updatedTaskList = task.filter((t) => !newIds.includes(t.id));
+      localStorage.setItem("tasks", JSON.stringify(updatedTaskList));
+      setNewIds([]);
+      getLocalStorageData();
+      setCount(0);
     }
     else {
-      setItemToDelete(title);
+      setCount(0);
     }
-  }
+}
 
-  function Delete() {
-    if (selectAll) {
-       if(handleAllDeleteButtonClick()) {
-        const DeleteAllTask = [];
-        localStorage.setItem("tasks", JSON.stringify(DeleteAllTask));
-        getLocalStorageData();
-        setSelectAll(false);
-        console.log(setSelectAll(!selectAll));
-       }
-    } else {
-      if(handleOneDeleteButtonClick()) {
-      const updatedTasks = task.filter((t) => t.title !== itemToDelete);
-      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-      getLocalStorageData();
-      setItemToDelete("");
-      }
-    }
-  }
-  
+function selectAllTasks() {
+     const allTaskIds = task.map(task => task.id);
+     if (newIds.length < allTaskIds.length) {
+       setNewIds(allTaskIds);
+       setCount(allTaskIds.length);
+     } else {
+       setNewIds([]);
+       setCount(0);
+     }
+}
+
   function sortItems() {
-    if(sortItem) {
-      const strAscending = [...task].sort((a, b) =>
-      a.title > b.title ? 1 : -1,
-    );
+    if(isSorted) {
+    const strAscending = [...task].sort((a, b) => a.id - b.id);
     localStorage.setItem("tasks", JSON.stringify(strAscending));
     getLocalStorageData();
     }
     else {
-      const strDescending = [...task].sort((a, b) =>
-      a.title > b.title ? -1 : 1,
-    );
+    const strDescending = [...task].sort((a, b) => b.id - a.id);
     localStorage.setItem("tasks", JSON.stringify(strDescending));
     getLocalStorageData();
     }
   }
 
   function sort() {
-    setSortItem(!sortItem);
+    setIsSorted(!isSorted);
     sortItems();
+  }
+
+  function handleAdd() {
+    setShow(true);
+    setIsEditMode(false);
   }
   return (
     <>
-        <h1 className="pt-2 pb-3">My Todo List</h1>
+        <h1 className="pt-2 pb-3 heading">My Todo List</h1>
         <div className="d-flex mt-3">
-          <InputGroup className="boot-search">
+        <button
+            type="button"
+            className="btn btn-primary select-all-button mb-2"
+            onClick={selectAllTasks}
+          >
+            Select {count}
+          </button>
+          <InputGroup className="boot-search ms-3">
             <Form.Control
               placeholder="Search . . ."
               aria-label="Search"
               aria-describedby="basic-addon2"
               value={search}
-              onChange={handleInputChange}
+              onChange={handleInputSearchChange}
             />
             <Button
               variant="outline-secondary"
@@ -159,38 +175,31 @@ function Home() {
           <button
             type="button"
             className="btn btn-primary ms-3 mb-2"
-            onClick={() => setShow(true)}
+            onClick={handleAdd}
           >
             Add
           </button>
-          <button
-            type="button"
-            className="btn btn-primary ms-3 mb-2"
-            onClick={SelectAll}
-          >
-            Select All
-          </button>
-          <button type="button" className="btn btn-primary ms-3 mb-2" onClick={sort}>Sort</button>
-          {selectAll || itemToDelete.length ? (
+          <button type="button" className={`sort ms-3 mb-2 ${isSorted? 'down-arrow' : ''}`} onClick={sort}><FontAwesomeIcon icon={faArrowUp} /></button>         
+           {count ? (
             <button
               type="button"
               className="btn btn-danger ms-3 mb-2"
-              onClick={Delete}
+              onClick={deleteTask}
             >
               Delete
             </button>
-          ) : null}
+           ) : null}
         </div>
         <div className="list-container">
           {task.length > 0 ? (
             task?.map((task, index) => (
-              <TaskList key={index} task={task} handleDelete={selectOneTask} selectAll={selectAll}/>
+              <TaskList key={index} task={task} selectTask={selectTask} newIds={newIds} setShow={setShow} setIsEditMode={setIsEditMode} setSelectedTodo={setSelectedTodo}/>
             ))
           ) : (
             <NotFound />
           )}
         </div>
-        <AddTodo show={show} setShow={setShow} addTask={addTask} />
+        <ManageTasks show={show} setShow={setShow} addTask={addTask} isEditMode={isEditMode} selectedTodo={selectedTodo} setStatus={setStatus} setTask={setTask}/>
     </>
   );
 }
