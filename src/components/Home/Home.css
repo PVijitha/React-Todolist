@@ -1,10 +1,6 @@
-.container {
-    height: 700px;
-    width: 1000px;
+.list-container {
     margin-left: 250px;
-    margin-top: 20px;
 }
-
 .add {
     color: white;
     text-decoration: none;
@@ -13,24 +9,33 @@
 .boot-search {
     width: 395px;
     height: 20px;
-    margin-left: 160px;
 }
 
-.task-container {
-    height: 70px;
-    width: 660px;
-    border: 0.5px solid black;
-    margin-left: 160px;
-    margin-top: 20px;
-    border-radius: 10px;
+.select-all-button {
+    margin-left: 412px;
 }
 
-.clicked {
-    border: 2px solid red;
-}
-
-.hidden-button {
+.down-arrow {
     height: 40px;
-    width: 70px;
-    margin-top: 30px;
+    width: 50px;
+    background-color: white;
+    border-radius: 5px;
+    transform: rotate(180deg);
+  }
+
+.sort {
+    height: 40px;
+    width: 50px;
+    background-color: white;
+    border-radius: 5px;
 }
+
+.sort,.down-arrow:hover {
+    background-color: #f6bf28; 
+    border: 1px solid white;
+  }
+
+  .heading {
+    margin-left: 600px;
+  }
+  

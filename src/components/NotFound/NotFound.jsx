@@ -2,7 +2,7 @@ import React from 'react';
 import './NotFound.css';
 function NotFound() {
   return (
-    <div className='notfount-container pt-3 fs-4'>No information!</div>
+    <div className='notfount-container pt-3 fs-4 ps-5'>No information!</div>
   )
 }
 
