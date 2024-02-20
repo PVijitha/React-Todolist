@@ -1,9 +1,9 @@
-const TodoStatusEnum = {
+const TodoStatus = {
     TODO: 'Todo',
     INPROGRESS: 'In progress',
     COMPLETED: 'Completed',
     CANCEL: 'Cancel'
   };
   
-  export default TodoStatusEnum;
+  export default TodoStatus;
   

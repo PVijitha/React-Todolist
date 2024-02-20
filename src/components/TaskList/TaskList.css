@@ -24,7 +24,7 @@
     background-color: white;
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 55px;
 
     &:hover {
         color: rgb(223, 114, 46);
@@ -34,11 +34,23 @@
 .status {
     position: absolute;
     top: 20px;
-    right: 60px;
+    right: 100px;
 }
 
 .checkbox {
     position: absolute;
     top: 20px;
     left: 10px;
+}
+
+.delete {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border: none;
+    background-color: white;
+    color: #ff0000;
+    &:hover {
+        color: #b10b0b;
+    }
 }

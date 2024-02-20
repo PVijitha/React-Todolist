@@ -12,7 +12,7 @@
 }
 
 .select-all-button {
-    margin-left: 412px;
+    margin-left: 12px;
 }
 
 .down-arrow {
@@ -39,3 +39,7 @@
     margin-left: 600px;
   }
   
+  .checkbox-home {
+    margin-left: 385px;
+    margin-top: 12px;
+  }
