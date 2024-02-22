@@ -10,17 +10,14 @@ function ManageTasksModal({
   addItem,
   isTitleValid,
   isAlreadyExist,
-  setSelectedItem,
   selectedItem,
   handleClose,
   handleTitleChange,
   handleDescriptionChange,
   task,
   selectedTodo,
+  handleSelect
 }) {
-  const handleSelect = eventKey => {
-    setSelectedItem(eventKey);
-  };
 
   return (
     <div>

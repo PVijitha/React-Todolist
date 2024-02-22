@@ -48,6 +48,7 @@ export default function Home() {
     localStorage.setItem("isSorted", JSON.stringify(isSorted));
   }, [isSorted]);
 
+  //local storage function
   function getLocalStorageData() {
     const storedTodos = localStorage.getItem("tasks");
     if (storedTodos) {
@@ -58,7 +59,7 @@ export default function Home() {
     }
   }
 
-  
+  //the search bar change will handling
   function handleInputSearchChange(e) {
     setSearch(e.target.value);
     if (e.target.value === "") {
@@ -66,11 +67,13 @@ export default function Home() {
     }
   }
 
+  //Adding tasks to task arry
   function addTask(title, description, id, status) {
     const newTask = [...task, { title, description, id, status }];
     setTask(newTask);
   }
 
+  //checking the searched item is present or not.
   function searchItem() {
     const list = task.filter(
       item => item.title.toLowerCase() === search.toLowerCase(),
@@ -78,16 +81,19 @@ export default function Home() {
     setTask([...list]);
   }
 
+  //clearing the searchbar
   function clear() {
     setSearch("");
     getLocalStorageData();
   }
 
+  //handling the delete alert
   function handleDeleteAlert() {
     const result = window.confirm("Are you sure you want to delete?");
     return result ? true : false;
   }
 
+  //selecting the particular item
   function selectTask(task) {
     const taskIndex = selectedTodo.findIndex(
       selectedTask => selectedTask.id === task.id,
@@ -104,6 +110,7 @@ export default function Home() {
     }
   }
 
+  //handling the single and multiple delete.
   function deleteTask(singleTask) {
     const showAlert = handleDeleteAlert();
     if (!showAlert) {
@@ -126,6 +133,7 @@ export default function Home() {
     }
   }
 
+  //selecting and deselect all tasks
   function selectAllTasks() {
     if (!selectedTodo.length) {
       setSelectedTodo(task);
@@ -134,6 +142,7 @@ export default function Home() {
     }
   }
 
+  //handling sorting
   function sortItems() {
     if (isSorted) {
       const strAscending = [...task].sort((a, b) => a.id - b.id);
@@ -146,11 +155,13 @@ export default function Home() {
     }
   }
 
+  //handle sort checkbox
   function sort() {
     setIsSorted(!isSorted);
     sortItems();
   }
 
+  //adding new tasks to task array
   const addItem = () => {
     setSelectedTodo([]);
     const trimmedTitle = title.trim();
@@ -189,12 +200,14 @@ export default function Home() {
     setShow(false);
   };
 
+  //handle edit fuctionality of particular task.
   function handleEditItem() {
     const editTask = selectedTodo[0];
     console.log(selectedTodo, "editTask");
     const existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     const indexOfSelectedTodo = existingTasks.findIndex(
-    task => task.id === editTask.id);
+      task => task.id === editTask.id,
+    );
     const updatedTask = {
       id: editTask.id,
       title: editTask.title,
@@ -213,6 +226,7 @@ export default function Home() {
     setShow(false);
   }
 
+  //handle modal close
   function handleClose() {
     setIsTitleValid(true);
     setisAlreadyExist(true);
@@ -222,10 +236,12 @@ export default function Home() {
     setSelectedTodo([]);
   }
 
+  //handling description change
   function handleDescriptionChange(e) {
     setDescription(e.target.value);
   }
 
+  //handling title change
   function handleTitleChange(e) {
     setTitle(e.target.value);
     if (!isEditMode) {
@@ -234,18 +250,25 @@ export default function Home() {
     }
   }
 
+  //handle add button
   function handleAdd() {
     setShow(true);
     setIsEditMode(false);
   }
+
+  // set the status title
+  const handleSelect = eventKey => {
+    setSelectedItem(eventKey);
+  };
 
   return (
     <>
       <h1 className="pt-2 pb-3 heading">My Todo List</h1>
       <div className="d-flex mt-3">
         <input
-          className="form-check-input checkbox-home"
           type="checkbox"
+          class="rounded-checkbox-home"
+          id="checkbox"
           checked={selectedTodo.length === task.length}
           onChange={selectAllTasks}
         />
@@ -324,22 +347,23 @@ export default function Home() {
           <NotFound />
         )}
       </div>
-      { show ? 
+      {show ? (
         <ManageTasksModal
-        show={show}
-        isEditMode={isEditMode}
-        handleClose={handleClose}
-        handleTitleChange={handleTitleChange}
-        handleDescriptionChange={handleDescriptionChange}
-        addItem={addItem}
-        isTitleValid={isTitleValid}
-        isAlreadyExist={isAlreadyExist}
-        handleEditItem={handleEditItem}
-        setSelectedItem={setSelectedItem}
-        task={task}
-        selectedTodo={selectedTodo}
-        selectedItem={selectedItem}
-      />: null}
+          show={show}
+          isEditMode={isEditMode}
+          handleClose={handleClose}
+          handleTitleChange={handleTitleChange}
+          handleDescriptionChange={handleDescriptionChange}
+          addItem={addItem}
+          isTitleValid={isTitleValid}
+          isAlreadyExist={isAlreadyExist}
+          handleEditItem={handleEditItem}
+          setSelectedItem={setSelectedItem}
+          task={task}
+          selectedTodo={selectedTodo}
+          handleSelect={handleSelect}
+        />
+      ) : null}
     </>
   );
 }

@@ -16,10 +16,12 @@ function TaskList({
   setSelectedItem,
   setDescription,
 }) {
+  //handle select task
   function handleClick() {
     selectTask(task);
   }
 
+  //handle edit button
   function handleEdit() {
     setShow(true);
     setIsEditMode(true);
@@ -38,14 +40,15 @@ function TaskList({
         }`}
       >
         <input
-          className="form-check-input checkbox ms-1"
           type="checkbox"
+          class="rounded-checkbox"
+          id="checkbox"
           checked={selectedTodo.some(
             selectedTask => selectedTask.id === task.id,
           )}
           onChange={handleClick}
         />
-        <div className="fs-5 title ms-5">
+        <div className="fs-5 ms-5">
           <b>{task.title}</b>
         </div>
         <div className="ms-5">{task.description}</div>

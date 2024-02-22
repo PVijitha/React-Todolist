@@ -1,45 +1,56 @@
 .list-container {
-    margin-left: 250px;
-}
-.add {
-    color: white;
-    text-decoration: none;
+  margin-left: 250px;
 }
 
 .boot-search {
-    width: 395px;
-    height: 20px;
+  width: 395px;
+  height: 20px;
 }
 
 .select-all-button {
-    margin-left: 12px;
+  margin-left: 12px;
 }
 
 .down-arrow {
-    height: 40px;
-    width: 50px;
-    background-color: white;
-    border-radius: 5px;
-    transform: rotate(180deg);
-  }
-
-.sort {
-    height: 40px;
-    width: 50px;
-    background-color: white;
-    border-radius: 5px;
+  height: 40px;
+  width: 50px;
+  background-color: white;
+  border-radius: 5px;
+  transform: rotate(180deg);
 }
 
-.sort,.down-arrow:hover {
-    background-color: #f6bf28; 
-    border: 1px solid white;
-  }
+.sort {
+  height: 40px;
+  width: 50px;
+  background-color: white;
+  border-radius: 5px;
+}
 
-  .heading {
-    margin-left: 600px;
-  }
-  
-  .checkbox-home {
-    margin-left: 385px;
-    margin-top: 12px;
-  }
+.sort,
+.down-arrow:hover {
+  background-color: #f6bf28;
+  border: 1px solid white;
+}
+
+.heading {
+  margin-left: 600px;
+}
+
+.rounded-checkbox-home {
+  margin-left: 385px;
+  margin-top: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid black;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.rounded-checkbox-home:checked {
+  clip-path: circle(50% at 50% 50%);
+  background-color: red;
+}
