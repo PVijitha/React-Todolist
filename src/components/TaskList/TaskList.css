@@ -13,18 +13,12 @@
     border: 2px solid red;
 }
 
-.hidden-button {
-    height: 40px;
-    width: 70px;
-    margin-top: 30px;
-}
-
 .edit-icon {
     border: none;
     background-color: white;
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 55px;
 
     &:hover {
         color: rgb(223, 114, 46);
@@ -34,11 +28,43 @@
 .status {
     position: absolute;
     top: 20px;
-    right: 60px;
+    right: 100px;
 }
 
 .checkbox {
     position: absolute;
     top: 20px;
     left: 10px;
+}
+
+.delete {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border: none;
+    background-color: white;
+    color: #ff0000;
+
+    &:hover {
+        color: #b10b0b;
+    }
+}
+
+.rounded-checkbox {
+    position: absolute;
+    margin-top: 22px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.rounded-checkbox:checked {
+    clip-path: circle(50% at 50% 50%);
+    background-color: red;
 }
