@@ -267,7 +267,7 @@ export default function Home() {
       <div className="d-flex mt-3">
         <input
           type="checkbox"
-          class="rounded-checkbox-home"
+          className="rounded-checkbox-home"
           id="checkbox"
           checked={selectedTodo.length === task.length}
           onChange={selectAllTasks}
@@ -362,6 +362,7 @@ export default function Home() {
           task={task}
           selectedTodo={selectedTodo}
           handleSelect={handleSelect}
+          selectedItem={selectedItem}
         />
       ) : null}
     </>

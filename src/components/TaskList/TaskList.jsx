@@ -27,6 +27,7 @@ function TaskList({
     setIsEditMode(true);
     setSelectedTodo([task]);
     setSelectedItem(task.status);
+    console.log(task.status);
     setDescription(task.description);
   }
 
@@ -38,10 +39,14 @@ function TaskList({
             ? "clicked"
             : ""
         }`}
+        onClick={handleClick}
+        onDoubleClick={() => {
+          handleEdit();
+        }}
       >
         <input
           type="checkbox"
-          class="rounded-checkbox"
+          className="rounded-checkbox"
           id="checkbox"
           checked={selectedTodo.some(
             selectedTask => selectedTask.id === task.id,
@@ -76,9 +81,11 @@ function TaskList({
         <button
           type="button"
           className="delete"
-          onClick={() => {
+          onClick={e => {
             setSelectedTodo([task]);
-            deleteTask(task);
+            setTimeout(() => {
+              deleteTask(task);
+            }, 300);
           }}
         >
           <FontAwesomeIcon icon={faTrash} />
